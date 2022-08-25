@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Loader\Configurator\form;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class EmployeController extends AbstractController
 {
@@ -88,5 +89,16 @@ class EmployeController extends AbstractController
             'form_employe' => $form->createView(),
             'employe' => $employe
         ]);
-    }
+    }// end function update
+
+    #[Route('/supprimer-un-employe/{id}', name: 'delete_employe', methods: ['GET'])]
+public function deleteEmploye(Employe $employe, EntityManagerInterface $entityManager): RedirectResponse
+{
+
+$entityManager->remove($employe);
+$entityManager->flush();
+
+return $this->redirectToRoute('default_home');
+}
+
 }// end class
