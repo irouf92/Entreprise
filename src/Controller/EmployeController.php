@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Loader\Configurator\form;
 
 class EmployeController extends AbstractController
 {
@@ -58,7 +59,7 @@ class EmployeController extends AbstractController
 
             $entityManager->flush();
 
-            #Pour terminer nous devon rediriger l utilisateur sur une page html grave a une route.
+            #Pour terminer nous devon rediriger l utilisateur sur une page html grace a une route.
             #nous utilisons la methode redirectToRoute()pour faire la redirection.
             return $this->redirectToRoute('default_home');
         }
@@ -70,4 +71,22 @@ class EmployeController extends AbstractController
         ]);
     } // end function create
 
+    #[Route('/modifier-un-employer/{id}', name: 'update_employe', methods: ['GET', 'POST'])]
+    public function updateEmploye(Employe $employe, Request $request, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(EmployeFormType::class, $employe)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($employe);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('default_home');
+        }
+        return $this->render('form/employe.html.twig', [
+            'form_employe' => $form->createView(),
+            'employe' => $employe
+        ]);
+    }
 }// end class

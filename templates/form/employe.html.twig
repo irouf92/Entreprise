@@ -5,7 +5,12 @@
 
 {% block body %}
 
-	<h1 class="text-center my-4">Ajouter un employé dans l annuaire</h1>
+	{% if employe is not defined %}
+		<h1 class="text-center my-4">Ajouter un employé dans l annuaire</h1>
+	{% else %}
+		<h1 class="text-center my-4">Modifier l employé
+			{{ employe.prenom }}</h1>
+	{% endif %}
 
 	<div class="row">
 		<div class="col-6 mx-auto">
@@ -13,7 +18,9 @@
 			{{form(form_employe) }}
 			</div>
 			<div/>
-			.row>.col-6.mx-auto
+			<div class="row">
+				<div class="col-6 mx-auto"></div>
+			</div>
 
 
 		{% endblock %}
