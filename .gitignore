@@ -21,3 +21,5 @@
 
 # toujours à mettre#
 /.vscode/*
+
+# /public/build/
